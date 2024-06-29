@@ -50,22 +50,61 @@ namespace ProceduralGeneration
         public static float Noise(float x, float y)
         {
             // the grid cell coordinates
-            var gridX = Floor(x) & 255;
-            var gridY = Floor(y) & 255;
+            int gridX = Floor(x) & 255;
+            int gridY = Floor(y) & 255;
             // the relative coordinates of the point in the cell
-            var dx = x - Floor(x);
-            var dy = y - Floor(y);
+            float dx = x - Floor(x);
+            float dy = y - Floor(y);
             // fade the relative coordinates
-            var u = Fade(dx);
-            var v = Fade(dy);
+            float u = Fade(dx);
+            float v = Fade(dy);
             // hash coordinates of the 4 corners
-            var hashA = Permutation512[gridX] + gridY;
-            var hashB = Permutation512[gridX + 1] + gridY;
+            int hashA = Permutation512[gridX] + gridY;
+            int hashB = Permutation512[gridX + 1] + gridY;
             // bilinear interpolation
-            var x0 = Lerp(Grad(Permutation512[hashA], dx, dy), Grad(Permutation512[hashB], dx - 1, dy), u);
-            var x1 = Lerp(Grad(Permutation512[hashA + 1], dx, dy - 1), Grad(Permutation512[hashB + 1], dx - 1, dy - 1), u);
-            var result = Lerp(x0, x1, v);
-            return (result + 1f) * 0.5f;
+            float y0 = Lerp(Grad(Permutation512[hashA], dx, dy), Grad(Permutation512[hashB], dx - 1, dy), u);
+            float y1 = Lerp(Grad(Permutation512[hashA + 1], dx, dy - 1), Grad(Permutation512[hashB + 1], dx - 1, dy - 1), u);
+            return Lerp(y0, y1, v);
+        }
+
+        /// <summary>
+        /// Get the noise value of 3D perlin noise.
+        /// </summary>
+        /// <returns>[0, 1]</returns>
+        public static float Noise(float x, float y, float z)
+        {
+            int gridX = Floor(x) & 255, gridY = Floor(y) & 255, gridZ = Floor(z) & 255;
+            float dx = x - Floor(x), dy = y - Floor(y), dz = z - Floor(z);
+            float u = Fade(dx), v = Fade(dy), w = Fade(dz);
+            int hashA = Permutation512[gridX] + gridY,
+                hashAA = Permutation512[hashA] + gridZ,
+                hashAB = Permutation512[hashA + 1] + gridZ;
+            int hashB = Permutation512[gridX + 1] + gridY,
+                hashBA = Permutation512[hashB] + gridZ,
+                hashBB = Permutation512[hashB + 1] + gridZ;
+            return
+                Lerp(
+                    Lerp(
+                        Lerp(
+                            Grad(Permutation512[hashAA], x, y, z),
+                            Grad(Permutation512[hashBA], x - 1, y, z),
+                            u),
+                        Lerp(
+                            Grad(Permutation512[hashAB], x, y - 1, z),
+                            Grad(Permutation512[hashBB], x - 1, y - 1, z),
+                            u),
+                        v),
+                    Lerp(
+                        Lerp(
+                            Grad(Permutation512[hashAA + 1], x, y, z - 1),
+                            Grad(Permutation512[hashBA + 1], x - 1, y, z - 1),
+                            u),
+                        Lerp(
+                            Grad(Permutation512[hashAB + 1], x, y - 1, z - 1),
+                            Grad(Permutation512[hashBB + 1], x - 1, y - 1, z - 1),
+                            u),
+                        v),
+                    w);
         }
 
         /// <summary>
@@ -87,15 +126,26 @@ namespace ProceduralGeneration
         private static float Fade(float x) => x * x * x * (x * (x * 6 - 15) + 10);
 
         /// <summary>
-        /// Get gradient value
+        /// Get 2d gradient value
         /// </summary>
         /// <returns>(x + y) or (y - x) or (x - y) or (-x - y)</returns>
         private static float Grad(int hash, float x, float y)
         {
-            var h = hash & 7;
-            var u = h < 4 ? x : y;
-            var v = h < 4 ? y : x;
+            int h = hash & 7; // convert the hash to 0-7
+            float u = h < 4 ? x : y;
+            float v = h < 4 ? y : x;
             return (h & 1) == 0 ? u : -u + (h & 2) == 0 ? v : -v;
+        }
+
+        /// <summary>
+        /// Get 3d gradient value
+        /// </summary>
+        private static float Grad(int hash, float x, float y, float z)
+        {
+            int h = hash & 15;
+            float u = h < 8 ? x : y;
+            float v = h < 4 ? y : h is 12 or 14 ? x : z;
+            return ((h & 1) == 0 ? u : -u) + ((h & 2) == 0 ? v : -v);
         }
     }
 }
