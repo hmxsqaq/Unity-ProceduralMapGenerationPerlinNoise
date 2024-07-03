@@ -47,7 +47,7 @@ namespace ProceduralGeneration
         /// Get the noise value of 2D perlin noise.
         /// </summary>
         /// <returns>[0, 1]</returns>
-        public static float Noise(float x, float y)
+        public static float GetNoise(float x, float y)
         {
             // the grid cell coordinates
             int gridX = Floor(x) & 255;
@@ -71,7 +71,7 @@ namespace ProceduralGeneration
         /// Get the noise value of 3D perlin noise.
         /// </summary>
         /// <returns>[0, 1]</returns>
-        public static float Noise(float x, float y, float z)
+        public static float GetNoise(float x, float y, float z)
         {
             int gridX = Floor(x) & 255, gridY = Floor(y) & 255, gridZ = Floor(z) & 255;
             float dx = x - Floor(x), dy = y - Floor(y), dz = z - Floor(z);

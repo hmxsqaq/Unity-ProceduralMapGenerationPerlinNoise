@@ -15,9 +15,15 @@ namespace ProceduralGeneration
         }
 
         [Button]
-        public void Noise(float x, float y)
+        public void Noise()
         {
-            Debug.Log(PerlinNoise.Noise(x, y));
+            Debug.Log(PerlinNoise.GetNoise(Random.value, Random.value));
+        }
+
+        [Button]
+        public void DoSomething()
+        {
+
         }
     }
 }
