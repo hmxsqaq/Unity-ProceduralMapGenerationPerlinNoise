@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace ProceduralGeneration
+namespace ProceduralGeneration.Noise
 {
     public static class PerlinNoise
     {
