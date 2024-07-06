@@ -22,9 +22,9 @@ namespace ProceduralGeneration.TilemapGeneration
 
         [Title("Settings")]
         [SerializeField] private MapType mapType;
-        [SerializeField] [HideIf("mapType", MapType.Gray)] [OnValueChanged("Generate")]
+        [SerializeField] [HideIf("mapType", MapType.Gray)] [OnValueChanged(nameof(Generate))]
         [Range(0f, 1f)] private float waterProbability;
-        [SerializeField] [HideIf("mapType", MapType.Gray)] [OnValueChanged("Generate")]
+        [SerializeField] [HideIf("mapType", MapType.Gray)] [OnValueChanged(nameof(Generate))]
         private bool singleWaterElimination;
 
         protected override void Generate()

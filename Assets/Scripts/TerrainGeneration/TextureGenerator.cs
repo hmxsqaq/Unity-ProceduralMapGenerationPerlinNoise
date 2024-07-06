@@ -12,7 +12,7 @@ namespace TerrainGeneration
         protected override void Generate()
         {
             base.Generate();
-            Texture2D texture = NoiseUtility.GetTexture2D(NoiseMap);
+            Texture2D texture = TextureUtility.GetTextureFromHeightMap(NoiseMap);
             textureRenderer.sharedMaterial.mainTexture = texture;
         }
     }

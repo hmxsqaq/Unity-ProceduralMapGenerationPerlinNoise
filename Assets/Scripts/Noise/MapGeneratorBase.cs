@@ -21,5 +21,13 @@ namespace ProceduralGeneration.Noise
             if (useRandomSeed) seed = Time.time.GetHashCode();
             NoiseMap = NoiseUtility.GetNoiseMap(seed, width, height, scale);
         }
+
+        private void OnValidate()
+        {
+            if (width < 1) width = 1;
+            if (height < 1) height = 1;
+            if (scale < 0.001f) scale = 0.001f;
+            if (scale > 500f) scale = 500f;
+        }
     }
 }
