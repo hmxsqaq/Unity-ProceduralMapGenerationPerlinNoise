@@ -7,7 +7,9 @@ namespace ProceduralGeneration.Generation
     public abstract class MapGeneratorBase : MonoBehaviour
     {
         [Title("Noise Map")]
+        [OnValueChanged(nameof(Generate))]
         [SerializeField] protected int width;
+        [OnValueChanged(nameof(Generate))]
         [SerializeField] protected int height;
         [SerializeField] protected bool useRandomSeed;
         [DisableIf("useRandomSeed")]

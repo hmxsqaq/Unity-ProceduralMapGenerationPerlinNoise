@@ -34,7 +34,7 @@ namespace ProceduralGeneration.Generation
             textureRenderer.sharedMaterial.mainTexture = texture;
         }
 
-        private static Texture2D GetTextureOfColorMap(float[,] noiseMap, TerrainConfiguration terrainConfiguration)
+        public static Texture2D GetTextureOfColorMap(float[,] noiseMap, TerrainConfiguration terrainConfiguration)
         {
             int width = noiseMap.GetLength(0);
             int height = noiseMap.GetLength(1);
@@ -54,7 +54,7 @@ namespace ProceduralGeneration.Generation
             return GetTexture(colorMap, width, height);
         }
 
-        private static Texture2D GetTextureOfHeightMap(float[,] noiseMap)
+        public static Texture2D GetTextureOfHeightMap(float[,] noiseMap)
         {
             int width = noiseMap.GetLength(0);
             int height = noiseMap.GetLength(1);

@@ -25424,13 +25424,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1234153472}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1175746107}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1962708500}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1962708499
 GameObject:
@@ -25461,7 +25461,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1234153474}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1962708501
@@ -25481,11 +25482,15 @@ MonoBehaviour:
   useRandomSeed: 1
   seed: 1078488665
   scale: 12.3
+  offset: {x: 0, y: 0}
+  octaves: 1
+  persistance: 0
+  lacunarity: 1
   tilemap: {fileID: 1175746109}
   grassTile: {fileID: 11400000, guid: d5577851317bf194e9136482c99ededc, type: 2}
   waterTile: {fileID: 11400000, guid: bc8e5b3fc8a6d1049908e86161bfae9b, type: 2}
   squareTile: {fileID: 11400000, guid: bedca417c4743d24ba49c73d2455a6cd, type: 2}
-  mapType: 1
+  drawMode: 0
   waterProbability: 0.511
   singleWaterElimination: 1
 --- !u!1660057539 &9223372036854775807
@@ -25494,4 +25499,3 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 1962708500}
-  - {fileID: 1234153474}
