@@ -247,8 +247,8 @@ MonoBehaviour:
   width: 300
   height: 300
   useRandomSeed: 1
-  seed: 1120051691
-  scale: 18
+  seed: 1094438990
+  scale: 64
   textureRenderer: {fileID: 1495096194}
 --- !u!4 &744636625
 Transform:
