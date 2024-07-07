@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using ProceduralGeneration.Noise;
+using UnityEngine;
 
-namespace ProceduralGeneration.Noise
+namespace ProceduralGeneration.Utility
 {
     public static class NoiseUtility
     {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ProceduralGeneration.Noise
+namespace ProceduralGeneration.Utility
 {
     public static class TextureUtility
     {

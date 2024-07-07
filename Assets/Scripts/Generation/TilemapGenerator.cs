@@ -1,10 +1,9 @@
 ﻿using System;
-using ProceduralGeneration.Noise;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace ProceduralGeneration.TilemapGeneration
+namespace ProceduralGeneration.Generation
 {
     public class TilemapGenerator : MapGeneratorBase
     {

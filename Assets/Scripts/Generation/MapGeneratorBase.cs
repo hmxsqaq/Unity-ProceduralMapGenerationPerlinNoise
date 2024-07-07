@@ -1,7 +1,8 @@
-﻿using Sirenix.OdinInspector;
+﻿using ProceduralGeneration.Utility;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace ProceduralGeneration.Noise
+namespace ProceduralGeneration.Generation
 {
     public abstract class MapGeneratorBase : MonoBehaviour
     {

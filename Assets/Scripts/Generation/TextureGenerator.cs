@@ -1,8 +1,8 @@
-﻿using ProceduralGeneration.Noise;
+﻿using ProceduralGeneration.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace TerrainGeneration
+namespace ProceduralGeneration.Generation
 {
     public class TextureGenerator : MapGeneratorBase
     {
