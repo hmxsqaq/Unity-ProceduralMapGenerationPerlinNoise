@@ -1,4 +1,4 @@
-﻿using ProceduralGeneration.Utility;
+﻿using ProceduralGeneration.Noise;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -10,8 +10,18 @@ namespace ProceduralGeneration.Generation
         [SerializeField] protected int width;
         [SerializeField] protected int height;
         [SerializeField] protected bool useRandomSeed;
-        [SerializeField] [DisableIf("useRandomSeed")] protected int seed;
-        [SerializeField] [OnValueChanged("Generate")] [Range(0.001f, 500f)] protected float scale;
+        [DisableIf("useRandomSeed")]
+        [SerializeField] protected int seed;
+        [Range(0.001f, 500f)] [OnValueChanged("Generate")]
+        [SerializeField] protected float scale;
+        [OnValueChanged("Generate")]
+        [SerializeField] protected Vector2 offset;
+        [OnValueChanged("Generate")]
+        [SerializeField] protected int octaves;
+        [OnValueChanged("Generate")] [Range(0f, 1f)]
+        [SerializeField] protected float persistance;
+        [OnValueChanged("Generate")] [Range(1f, 10f)]
+        [SerializeField] protected float lacunarity;
 
         protected float[,] NoiseMap;
 
@@ -20,7 +30,7 @@ namespace ProceduralGeneration.Generation
         protected virtual void Generate()
         {
             if (useRandomSeed) seed = Time.time.GetHashCode();
-            NoiseMap = NoiseUtility.GetNoiseMap(seed, width, height, scale);
+            NoiseMap = NoiseUtility.GetNoiseMap(seed, width, height, scale, offset, octaves, persistance, lacunarity);
         }
 
         private void OnValidate()
@@ -29,6 +39,10 @@ namespace ProceduralGeneration.Generation
             if (height < 1) height = 1;
             if (scale < 0.001f) scale = 0.001f;
             if (scale > 500f) scale = 500f;
+            if (octaves < 1) octaves = 1;
+            if (persistance < 0f) persistance = 0f;
+            if (persistance > 1f) persistance = 1f;
+            if (lacunarity < 1f) lacunarity = 1f;
         }
     }
 }

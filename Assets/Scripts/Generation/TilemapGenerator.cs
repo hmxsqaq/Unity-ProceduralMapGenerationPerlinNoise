@@ -7,10 +7,10 @@ namespace ProceduralGeneration.Generation
 {
     public class TilemapGenerator : MapGeneratorBase
     {
-        private enum MapType
+        private enum DrawMode
         {
             Gray,
-            Water
+            Color
         }
 
         [Title("Tilemap")]
@@ -20,10 +20,10 @@ namespace ProceduralGeneration.Generation
         [SerializeField] [Required] private TileBase squareTile;
 
         [Title("Settings")]
-        [SerializeField] private MapType mapType;
-        [SerializeField] [HideIf("mapType", MapType.Gray)] [OnValueChanged(nameof(Generate))]
+        [SerializeField] private DrawMode drawMode;
+        [SerializeField] [HideIf("drawMode", DrawMode.Gray)] [OnValueChanged(nameof(Generate))]
         [Range(0f, 1f)] private float waterProbability;
-        [SerializeField] [HideIf("mapType", MapType.Gray)] [OnValueChanged(nameof(Generate))]
+        [SerializeField] [HideIf("drawMode", DrawMode.Gray)] [OnValueChanged(nameof(Generate))]
         private bool singleWaterElimination;
 
         protected override void Generate()
@@ -31,12 +31,12 @@ namespace ProceduralGeneration.Generation
             base.Generate();
 
             ClearTiles();
-            switch (mapType)
+            switch (drawMode)
             {
-                case MapType.Gray:
+                case DrawMode.Gray:
                     SetGrayTiles();
                     break;
-                case MapType.Water:
+                case DrawMode.Color:
                     if (singleWaterElimination) EliminateSingleWater();
                     SetWaterTiles();
                     break;
