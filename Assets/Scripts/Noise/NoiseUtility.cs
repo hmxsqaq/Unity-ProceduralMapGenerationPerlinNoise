@@ -5,7 +5,7 @@ namespace ProceduralGeneration.Noise
     public static class NoiseUtility
     {
         public static float[,] GetNoiseMap(int seed, int width, int height, float scale, Vector2 offset,
-            int octaves, float persistance, float lacunarity)
+            int octaves = 1, float persistance = 1, float lacunarity = 1)
         {
             Random.InitState(seed);
             // init map
@@ -53,6 +53,28 @@ namespace ProceduralGeneration.Noise
                 for (int x = 0; x < width; x++)
                     noiseMap[x, y] = Mathf.InverseLerp(minNoise, maxNoise, noiseMap[x, y]);
 
+            return noiseMap;
+        }
+
+        public static float[,] GetNoiseMap(int seed, int width, int height, float scale)
+        {
+            Random.InitState(seed);
+            // init map
+            float[,] noiseMap = new float[width, height];
+            // avoid scale = 0;
+            scale = scale <= 0 ? 0.0001f : scale;
+            // get offset point
+            Vector2 offset = new Vector2(Random.Range(-9999f, 9999f), Random.Range(-9999f, 9999));
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    float sampleX = x / scale + offset.x;
+                    float sampleY = y / scale + offset.y;
+                    noiseMap[x, y] = PerlinNoise.GetNoise(sampleX, sampleY);
+                }
+            }
             return noiseMap;
         }
     }

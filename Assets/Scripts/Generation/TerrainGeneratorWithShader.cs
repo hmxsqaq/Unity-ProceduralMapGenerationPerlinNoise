@@ -1,54 +1,31 @@
-﻿using System;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace ProceduralGeneration.Generation
 {
-    public class TerrainGenerator : MapGeneratorBase
+    public class TerrainGeneratorWithShader : MapGeneratorBase
     {
-        private enum DrawMode
-        {
-            HeightMap,
-            ColorMap
-        }
-
         [Title("Renderer")]
-        [SerializeField] [Required] private Renderer textureRenderer;
         [SerializeField] [Required] private MeshFilter meshFilter;
         [SerializeField] [Required] private MeshRenderer meshRenderer;
 
         [Title("Mesh Settings")]
-        [OnValueChanged(nameof(Generate))]
-        [SerializeField] private bool drawMesh;
-        [ShowIf("drawMesh")] [Range(1f, 50f)] [OnValueChanged(nameof(Generate))]
+        [Range(1f, 50f)] [OnValueChanged(nameof(Generate))]
         [SerializeField] private float meshHeightMultiplier;
-        [ShowIf("drawMesh")] [OnValueChanged(nameof(Generate))]
+        [OnValueChanged(nameof(Generate))]
         [SerializeField] private AnimationCurve meshHeightCurve;
 
         [Title("Texture Settings")]
-        [OnValueChanged(nameof(Generate))]
-        [SerializeField] private DrawMode drawMode;
-        [HideIf("drawMode", DrawMode.HeightMap)] [Required] [InlineEditor] [OnValueChanged(nameof(Generate))]
+        [Required] [InlineEditor] [OnValueChanged(nameof(Generate))]
         [SerializeField] private TerrainConfiguration terrainConfiguration;
 
         protected override void Generate()
         {
             base.Generate();
 
-            Texture2D texture = drawMode switch
-            {
-                DrawMode.HeightMap => TextureGenerator.GetTextureOfHeightMap(NoiseMap),
-                DrawMode.ColorMap => TextureGenerator.GetTextureOfColorMap(NoiseMap, terrainConfiguration),
-                _ => throw new ArgumentOutOfRangeException()
-            };
-
-            if (drawMesh)
-            {
-                meshFilter.sharedMesh = GenerateTerrainMesh(NoiseMap, meshHeightMultiplier, meshHeightCurve);
-                meshRenderer.sharedMaterial.mainTexture = texture;
-            }
-            else
-                textureRenderer.sharedMaterial.mainTexture = texture;
+            Texture2D texture = TextureGenerator.GetTextureOfColorMap(NoiseMap, terrainConfiguration);
+            meshFilter.sharedMesh = GenerateTerrainMesh(NoiseMap, meshHeightMultiplier, meshHeightCurve);
+            meshRenderer.material.SetTexture("_BlendTex", texture);
         }
 
         private static Mesh GenerateTerrainMesh(float[,] noiseMap, float heightMultiplier, AnimationCurve heightCurve)
@@ -62,16 +39,18 @@ namespace ProceduralGeneration.Generation
             MeshData meshData = new MeshData(width, height);
             int vertexIndex = 0;
             for (int y = 0; y < height; y++)
-            for (int x = 0; x < width; x++)
             {
-                meshData.Vertices[vertexIndex] = new Vector3(topLeftX + x, heightCurve.Evaluate(noiseMap[x, y]) * heightMultiplier, topLeftZ - y);
-                meshData.UVs[vertexIndex] = new Vector2(x / (float)width, y / (float)height);
-                if (x < width - 1 && y < height - 1)
+                for (int x = 0; x < width; x++)
                 {
-                    meshData.AddTriangle(vertexIndex, vertexIndex + width + 1, vertexIndex + width);
-                    meshData.AddTriangle(vertexIndex + width + 1, vertexIndex, vertexIndex + 1);
+                    meshData.Vertices[vertexIndex] = new Vector3(topLeftX + x, heightCurve.Evaluate(noiseMap[x, y]) * heightMultiplier, topLeftZ - y);
+                    meshData.UVs[vertexIndex] = new Vector2(x / (float)width, y / (float)height);
+                    if (x < width - 1 && y < height - 1)
+                    {
+                        meshData.AddTriangle(vertexIndex, vertexIndex + width + 1, vertexIndex + width);
+                        meshData.AddTriangle(vertexIndex + width + 1, vertexIndex, vertexIndex + 1);
+                    }
+                    vertexIndex++;
                 }
-                vertexIndex++;
             }
             return meshData.CreateMesh();
         }

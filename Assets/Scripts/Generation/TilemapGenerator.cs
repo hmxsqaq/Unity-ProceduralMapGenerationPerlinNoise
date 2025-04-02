@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 namespace ProceduralGeneration.Generation
 {
-    public class TilemapGenerator : MapGeneratorBase
+    public class TilemapGenerator : MapGeneratorBaseSingleNoise
     {
         private enum DrawMode
         {
@@ -20,6 +20,7 @@ namespace ProceduralGeneration.Generation
         [SerializeField] [Required] private TileBase squareTile;
 
         [Title("Settings")]
+        [OnValueChanged(nameof(Generate))]
         [SerializeField] private DrawMode drawMode;
         [SerializeField] [HideIf("drawMode", DrawMode.Gray)] [OnValueChanged(nameof(Generate))]
         [Range(0f, 1f)] private float waterProbability;

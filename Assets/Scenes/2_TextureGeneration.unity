@@ -248,13 +248,13 @@ MonoBehaviour:
   height: 300
   useRandomSeed: 0
   seed: 1131051708
-  scale: 100
+  scale: 107
   offset: {x: 0, y: 0}
   octaves: 3
-  persistance: 0.257
-  lacunarity: 3.21
+  persistance: 0.249
+  lacunarity: 3.24
   textureRenderer: {fileID: 1495096194}
-  drawMode: 1
+  drawMode: 0
   terrainConfiguration: {fileID: 11400000, guid: 0d4bb72cc8bb2ae42a05821d6645280e, type: 2}
 --- !u!4 &744636625
 Transform:

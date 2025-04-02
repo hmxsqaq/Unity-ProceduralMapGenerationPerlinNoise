@@ -15,7 +15,7 @@ MonoBehaviour:
   terrainTypes:
   - name: DeepWater
     height: 0.3
-    color: {r: 0.112459935, g: 0.2484861, b: 0.509434, a: 0}
+    color: {r: 0.007849738, g: 0.289816, b: 0.5943396, a: 0}
   - name: ShallowWater
     height: 0.4
     color: {r: 0.20392159, g: 0.40000004, b: 0.77647066, a: 0}
